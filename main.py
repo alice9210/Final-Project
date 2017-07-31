@@ -16,6 +16,7 @@
 #
 import webapp2
 import jinja2
+import os
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -27,6 +28,9 @@ class Person(ndb.Model):
     email = ndb.StringProperty()
     profile_image = ndb.BlobProperty()
 
+class Restaurant(ndb.Model):
+    name = ndb.StringProperty()
+
 class Place(ndb.Model):
     place_name = ndb.StringProperty()
     place_type = ndb.StringProperty()
@@ -36,6 +40,7 @@ class MainPage(webapp2.RequestHandler):
         user = users.get_current_user()
         people = Person.query().fetch()
         in_people = False
+        check = True
         if user:
             for person in people:
                 if user.nickname() == person.email:
@@ -52,12 +57,30 @@ class MainPage(webapp2.RequestHandler):
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
                 users.create_login_url('/'))
-        self.response.write('<html><body>%s</body></html>' % greeting)
+            check = False
+        template = jinja_environment.get_template('templates/onthefence.html')
+        vars_dict = {'response': greeting, 'check': check}
+        self.response.out.write(template.render(vars_dict))
 
-# class ProfilePage(webapp2.RequestHandler):
-#     templat
-#     self.response.write(template.render())
+class ProfilePage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("templates/profile-page.html")
+        user = users.get_current_user()
+        people = Person.query().fetch()
+        for person in people:
+            if user.nickname() == person.email:
+                current_person = person
+        new_restaurant = Restaurant(name = self.request.get('food'))
+        new_restaurant.put()
+        restaurants = Restaurant.query().fetch()
+        restaurant_list = []
+        for place in restaurants:
+            restaurant_list.append(place.name)
+        vars_dict = {'name': current_person.name, 'list': restaurant_list}
+        self.response.write(template.render(vars_dict))
+
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage)
+    ('/', MainPage),
+    ('/profile', ProfilePage)
 ], debug=True)
