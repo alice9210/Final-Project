@@ -16,6 +16,7 @@
 #
 import webapp2
 import jinja2
+import os
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -55,7 +56,8 @@ class MainPage(webapp2.RequestHandler):
         self.response.write('<html><body>%s</body></html>' % greeting)
 
 # class ProfilePage(webapp2.RequestHandler):
-#     templat
+#     def get(self):
+#           template = jinja_environment.get_template("templates/...")
 #     self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
