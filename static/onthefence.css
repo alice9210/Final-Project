@@ -1,0 +1,20 @@
+body {
+    background: center/100% url(https://c1.staticflickr.com/3/2608/4112946663_7bbf4c3b41_b.jpg);
+    background-repeat: no-repeat;
+}
+
+.container {
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  display:flex;
+}
+
+button {
+    border: none;
+    padding: 10px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+}
