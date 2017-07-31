@@ -37,6 +37,7 @@ class MainPage(webapp2.RequestHandler):
         user = users.get_current_user()
         people = Person.query().fetch()
         in_people = False
+        check = True
         if user:
             for person in people:
                 if user.nickname() == person.email:
@@ -53,13 +54,17 @@ class MainPage(webapp2.RequestHandler):
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
                 users.create_login_url('/'))
-        self.response.write('<html><body>%s</body></html>' % greeting)
+            check = False
+        template = jinja_environment.get_template('templates/onthefence.html')
+        vars_dict = {'response': greeting, 'check': check}
+        self.response.out.write(template.render(vars_dict))
 
-# class ProfilePage(webapp2.RequestHandler):
-#     def get(self):
-#           template = jinja_environment.get_template("templates/...")
-#     self.response.write(template.render())
+class ProfilePage(webapp2.RequestHandler):
+    def get(self):
+        #   template = jinja_environment.get_template("templates/...")
+          self.response.write("Hi")
 
 app = webapp2.WSGIApplication([
-    ('/', MainPage)
+    ('/', MainPage),
+    ('/profile', ProfilePage)
 ], debug=True)

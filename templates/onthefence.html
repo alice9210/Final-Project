@@ -1,18 +1,17 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="onthefence.css">
+<link rel="stylesheet" href="/resources/onthefence.css">
 
 </head>
 
 <body>
 
-<div class = container>
-
-  <form>
-  <input class="MyButton" type="button" value="Sign In or Sign Up" on click="window.location.href='users.create_login_url('/')'"/>
-</form>
-
+<h1>{{response}}</h1>
+<div>
+{% if check == True %}
+  <button onclick="window.location.href='/profile'">Continue to Profile</button>
+{% endif %}
 </div>
 
 </body>

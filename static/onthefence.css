@@ -1,20 +1,21 @@
 body {
-    background: center/100% url(https://c1.staticflickr.com/3/2608/4112946663_7bbf4c3b41_b.jpg);
-    background-repeat: no-repeat;
+    background-image: url("whitepicketfence.jpg");
+    background-color: #cccccc;
+    background-size: 100% 100%;
 }
 
-.container {
+div {
   justify-content: center;
   align-items: center;
-  height: 100%;
   display:flex;
 }
 
+h1 {
+  text-align: center;
+  padding-top: 25%;
+  font-size: 100px;
+}
+
 button {
-    border: none;
-    padding: 10px 50px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 10px;
+  font-size: 25px;
 }
