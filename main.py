@@ -64,19 +64,24 @@ class MainPage(webapp2.RequestHandler):
 
 class ProfilePage(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template("templates/profile-page.html")
         user = users.get_current_user()
         people = Person.query().fetch()
         for person in people:
             if user.nickname() == person.email:
                 current_person = person
+        vars_dict = {'name': current_person.name}
+        template = jinja_environment.get_template("templates/profile-page.html")
+        self.response.write(template.render(vars_dict))
+
+    def post(self):
         new_restaurant = Restaurant(name = self.request.get('food'))
         new_restaurant.put()
         restaurants = Restaurant.query().fetch()
         restaurant_list = []
         for place in restaurants:
             restaurant_list.append(place.name)
-        vars_dict = {'name': current_person.name, 'list': restaurant_list}
+        vars_dict = {'list': restaurant_list}
+        template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
 

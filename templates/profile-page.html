@@ -54,7 +54,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-white">
           <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Food</button>
           <div id="Demo1" class="w3-hide w3-container">
-            <form method="get">
+            <form method="post">
             {% for place in list %}
               {{place}}
             {% endfor %}
