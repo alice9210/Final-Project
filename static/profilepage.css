@@ -106,6 +106,12 @@ fieldset {
   font-size: 15px;
 }
 
+.center {
+  text-align: center;
+  display: block;
+  margin: 1.0em auto;
+}
+
 #contact button[type="submit"]:hover {
   background: #43A047;
   -webkit-transition: background 0.3s ease-in-out;
