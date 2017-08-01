@@ -31,11 +31,11 @@ class Person(ndb.Model):
     restaurants = ndb.StringProperty(repeated = True)
     entertainments = ndb.StringProperty(repeated = True)
 
-class Restaurant(ndb.Model):
-    name = ndb.StringProperty()
+# class Restaurant(ndb.Model):
+#     name = ndb.StringProperty()
 
-class Entertainment(ndb.Model):
-    name = ndb.StringProperty()
+# class Entertainment(ndb.Model):
+#     name = ndb.StringProperty()
 
 
 class MainPage(webapp2.RequestHandler):
@@ -80,29 +80,31 @@ class ProfilePage(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
         person = Person.query(Person.name == user.nickname()).fetch()[0]
-        new_restaurant = Restaurant(name = self.request.get('food'))
-        if new_restaurant.name != "":
-            new_restaurant.put()
-        restaurants = Restaurant.query().fetch()
-        restaurant_list = []
-        for place in restaurants:
-            restaurant_list.append(place.name)
-        if new_restaurant.name not in restaurant_list and new_restaurant.name != "":
-            restaurant_list.append(new_restaurant.name)
-        person.restaurants = restaurant_list
+        # new_restaurant = Restaurant(name = self.request.get('food'))
+        # if new_restaurant.name != "":
+        #     new_restaurant.put()
+        # restaurants = Restaurant.query().fetch()
+        # restaurant_list = []
+        # for place in restaurants:
+        #     restaurant_list.append(place.name)
+        # if new_restaurant.name not in restaurant_list and new_restaurant.name != "":
+        #     restaurant_list.append(new_restaurant.name)
+        new_restaurant = self.request.get('food')
+        person.restaurants.append(new_restaurant)
         person.put()
-        new_entertainment = Entertainment(name = self.request.get('entertainment'))
-        if new_entertainment.name != "":
-            new_entertainment.put()
-        entertainments = Entertainment.query().fetch()
-        entertainment_list = []
-        for place in entertainments:
-            entertainment_list.append(place.name)
-        if new_entertainment.name not in entertainment_list and new_entertainment.name != "":
-            entertainment_list.append(new_entertainment.name)
-        person.entertainments = entertainment_list
+        # new_entertainment = Entertainment(name = self.request.get('entertainment'))
+        # if new_entertainment.name != "":
+        #     new_entertainment.put()
+        # entertainments = Entertainment.query().fetch()
+        # entertainment_list = []
+        # for place in entertainments:
+        #     entertainment_list.append(place.name)
+        # if new_entertainment.name not in entertainment_list and new_entertainment.name != "":
+        #     entertainment_list.append(new_entertainment.name)
+        new_entertainment = self.request.get('entertainment')
+        person.entertainments.append(new_entertainment)
         person.put()
-        vars_dict = {'name': person.name, 'restaurant_list': restaurant_list, 'entertainment_list': entertainment_list}
+        vars_dict = {'name': person.name, 'restaurant_list': person.restaurants, 'entertainment_list': person.entertainments}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
