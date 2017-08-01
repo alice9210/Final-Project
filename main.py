@@ -157,9 +157,18 @@ class Randomizer(webapp2.RequestHandler):
         vars_dict = {'random':random_place}
         self.response.write(template.render(vars_dict))
 
+class EditPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("templates/profilepage.html")
+        self.response.write(template.render())
+    def post(self):
+        template = jinja_environment.get_template("templates/profilepage.html")
+        self.response.write(template.render())
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/profile', ProfilePage),
-    ('/random', Randomizer)
+    ('/random', Randomizer),
+    ('/editprofile', EditPage)
 ], debug=True)
