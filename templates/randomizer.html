@@ -7,7 +7,7 @@
 
 <body>
   <div>
-        <form method = "get">
+        <form method = "post">
           <p>On the Fence?:
               <select name="category_answer" id="dropdown">
                   <option value="Food">Food</option>
@@ -17,13 +17,14 @@
                   <option value="Home">At Home</option>
               </select>
           <button type="submit">Find Something To Do</button> </p>
+          <div id="top">
+            <textarea>
+              {{random}}
+            </textarea>
+         </div>
         </form>
   </div>
-  <div id="top">
-    <textarea rows="4" cols="50">
-      {{random}}
-    </textarea>
- </div>
+
 </body>
 
 
