@@ -33,6 +33,8 @@ class Person(ndb.Model):
     outdoors = ndb.StringProperty(repeated = True)
     indoors = ndb.StringProperty(repeated = True)
     home = ndb.StringProperty(repeated = True)
+    location = ndb.StringProperty()
+    age = ndb.StringProperty()
 
 # class Restaurant(ndb.Model):
 #     name = ndb.StringProperty()
@@ -53,7 +55,7 @@ class MainPage(webapp2.RequestHandler):
                     in_people = True
             if in_people == False:
                 current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="<img src='https://static.tplugin.com/tplugin/img/unknown-user.png'/>",
-                    restaurants=[], entertainments=[], outdoors=[], indoors=[], home=[])
+                    restaurants=[], entertainments=[], outdoors=[], indoors=[], home=[], location=" ", age=" ")
                 current_user.put()
             else:
                 for person in people:
@@ -71,14 +73,20 @@ class MainPage(webapp2.RequestHandler):
 
 class ProfilePage(webapp2.RequestHandler):
     def get(self):
+        #Refresh issue still happening
         logout = users.create_logout_url('/')
+        key = self.request.get('key')
         user = users.get_current_user()
         people = Person.query().fetch()
-        for person in people:
-            if user.nickname() == person.email:
-                current_person = person
+        if key:
+            current_person = Person.get_by_id(int(key))
+        else:
+            for person in people:
+                if user.nickname() == person.email:
+                    current_person = person
         vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants, 'entertainment_list': current_person.entertainments,
-            'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home, 'url': logout}
+            'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home, 'url': logout,
+            'location': current_person.location, 'age': current_person.age}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -127,7 +135,8 @@ class ProfilePage(webapp2.RequestHandler):
         person.put()
 
         vars_dict = {'name': person.name, 'restaurant_list': person.restaurants, 'entertainment_list': person.entertainments,
-            'outdoors_list': person.outdoors, 'indoors_list': person.indoors,'home_list': person.home}
+            'outdoors_list': person.outdoors, 'indoors_list': person.indoors,'home_list': person.home,
+            'location': current_person.location, 'age': current_person.age}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -166,11 +175,10 @@ class EditPage(webapp2.RequestHandler):
         user = users.get_current_user()
         person = Person.query(Person.email == user.nickname()).fetch()[0]
         person.name = self.request.get("name")
+        person.age = self.request.get("age")
+        person.location = self.request.get("location")
         person.put()
-        # template = jinja_environment.get_template("templates/profile-page.html")
-        # vars_dict = {'name': person.name}
-        # self.response.write(template.render(vars_dict))
-        self.redirect('/profile')
+        self.redirect('/profile?key=%s' % person.key.id())
 
 
 app = webapp2.WSGIApplication([
