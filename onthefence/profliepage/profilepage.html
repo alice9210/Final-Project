@@ -1,36 +1,27 @@
 <html>
 
-
 <head>
-
-  <title>Edit Your Proflie</title>
-
 <link rel="stylesheet" type="text/css" href="profilepage.css">
-
 </head>
-
-
 <body>
+<div class="container">
+  <form id="contact" action="" method="post">
+    <h3>Edit Your Profile</h3>
+    <fieldset>
+      <input placeholder="Your name" type="text" tabindex="1" required autofocus>
+    </fieldset>
+    <fieldset>
+      <input placeholder="Your Email Address" type="email" tabindex="2" required>
+    </fieldset>
+    <fieldset>
+      <input placeholder="Your Location (optional)" type="tel" tabindex="3" required>
+    </fieldset>
+    <fieldset>
+      <input placeholder="Profile Picture (optional, but URL is required)" type="url" tabindex="4" required>
+   <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+    </fieldset>
 
-<h1>Edit Your Profile</h1>
-
-<form action="/action_page.php">
-  Name:<br>
-  <input type="text" name="Name" value="">
-  <br><br>
-  Age:<br>
-  <input type="text" name="Age" value="">
-  <br><br>
-  Location:<br>
-  <input type="text" name="Location" value="">
-  <br><br>
-  <input type="submit" value="Submit">
-</form>
-
-
+  </form>
+</div>
 </body>
-
-
-
-
 </html>
