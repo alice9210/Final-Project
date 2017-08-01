@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import random
 import webapp2
 import jinja2
 import os
@@ -104,7 +105,21 @@ class RandomPage(webapp2.RequestHandler):
         template = jinja_environment.get_template("templates/randomizer.html")
         self.response.write(template.render())
 
-
+class Randomizer(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("templates/randomizer.html")
+        self.response.write(template.render())
+    def post(self):
+        random = ''
+        template = jinja_environment.get_template("templates/randomizer.html")
+        restaurants = Restaurant.query().fetch()
+        restaurant_list = []
+        for place in restaurants:
+            restaurant_list.append(place.name)
+        if category_answer == Food:
+            random = (random.choice(restaurant_list))
+        vars_dict = {'random':random}
+        self.response.write(template.render(vars_dict))
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/profile', ProfilePage),

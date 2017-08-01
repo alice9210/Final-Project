@@ -8,8 +8,20 @@ div {
   justify-content: center;
   align-items: center;
   display:flex;
+  font-size: 50px;
+  color: White;
 }
-
+#dropdown{
+  width: auto;
+  height:45px;
+  font-size: 40px;
+}
+#top{
+  justify-content: center;
+  align-items: center;
+  display:flex;
+  padding-top: 20%;
+}
 h1 {
   text-align: center;
   padding-top: 25%;
@@ -17,5 +29,7 @@ h1 {
 }
 
 button {
+  width: auto;
+  height:45px;
   font-size: 25px;
 }
