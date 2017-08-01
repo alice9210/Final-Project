@@ -106,10 +106,7 @@ class ProfilePage(webapp2.RequestHandler):
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 4b6a546249ceb7b1f819639fb4c05fef3ceb3fe7
 class Randomizer(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template("templates/randomizer.html")
@@ -128,17 +125,9 @@ class Randomizer(webapp2.RequestHandler):
         vars_dict = {'random':random_place}
         self.response.write(template.render(vars_dict))
 
-<<<<<<< HEAD
 
-
-app = webapp2.WSGIApplication([
-    ('/', MainPage),
-    ('/profile', ProfilePage),
-    ('/random', Randomizer),
-=======
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/profile', ProfilePage),
     ('/random', Randomizer)
->>>>>>> 4b6a546249ceb7b1f819639fb4c05fef3ceb3fe7
 ], debug=True)
