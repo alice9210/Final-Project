@@ -163,9 +163,12 @@ class EditPage(webapp2.RequestHandler):
         template = jinja_environment.get_template("templates/profilepage.html")
         self.response.write(template.render())
     def post(self):
-        template = jinja_environment.get_template("templates/profilepage.html")
-        name = self.request.get('name')
-        self.response.write(template.render())
+        user = users.get_current_user()
+        person = Person.query(Person.name == user.nickname()).fetch()[0]
+        person.name = self.request.get('name')
+        template = jinja_environment.get_template("templates/profile-page.html")
+        vars_dict = {'name': person.name}
+        self.response.write(template.render(vars_dict))
 
 
 app = webapp2.WSGIApplication([
