@@ -54,17 +54,27 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         <div class="w3-white">
           <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Food</button>
           <div id="Demo1" class="w3-hide w3-container">
-            <form method="get">
-            {% for place in list %}
-              {{place}}
+            <form method="post">
+              <ul>
+            {% for place in restaurant_list %}
+              <li>{{place}}</li>
             {% endfor %}
+          </ul>
             <p>Add a restaurant<input type="text" name="food"></p>
             <button>Submit</button>
             </form>
           </div>
           <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align">Entertainment</button>
           <div id="Demo2" class="w3-hide w3-container">
-            <p>Some other text..</p>
+            <form method="post">
+              <ul>
+            {% for place in entertainment_list %}
+              <li>{{place}}</li>
+            {% endfor %}
+          </ul>
+            <p>Add a place<input type="text" name="entertainment"></p>
+            <button>Submit</button>
+            </form>
           </div>
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align">Outdoors</button>
           <div id="Demo3" class="w3-hide w3-container">
