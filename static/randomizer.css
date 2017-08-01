@@ -16,13 +16,9 @@ div {
   height:45px;
   font-size: 40px;
 }
-#top{
-  justify-content: center;
-  align-items: center;
-  display:flex;
-  height: 80px;
-  padding-top: 40%;
-}
+/*#top{
+
+}*/
 h1 {
   text-align: center;
   padding-top: 25%;
@@ -33,4 +29,17 @@ button {
   width: auto;
   height:45px;
   font-size: 25px;
+}
+
+.box {
+  margin-top: 365px;
+  display: flex;
+  text-align: center;
+  background-color:#120A8F;
+  height: 63px;
+  width:auto;
+
+
+
+
 }
