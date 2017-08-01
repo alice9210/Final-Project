@@ -164,6 +164,7 @@ class EditPage(webapp2.RequestHandler):
         self.response.write(template.render())
     def post(self):
         template = jinja_environment.get_template("templates/profilepage.html")
+        name = self.request.get('name')
         self.response.write(template.render())
 
 
