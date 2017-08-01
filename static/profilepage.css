@@ -19,6 +19,7 @@ body {
   line-height: 30px;
   color: #77;
   background: #778899;
+
 }
 
 .container {
@@ -26,6 +27,7 @@ body {
   width: 100%;
   margin: 0 auto;
   position: relative;
+
 }
 
 #contact input[type="text"],
@@ -97,13 +99,15 @@ fieldset {
 
 #contact button[type="submit"] {
   cursor: pointer;
-  width: 50%;
+  width: 20%;
   border: none;
   background: #36454f;
   color: #FFF;
   margin: 0 0 5px;
   padding: 10px;
   font-size: 15px;
+  display: block;
+  text-align: center;
 }
 
 #contact button[type="submit"]:hover {
