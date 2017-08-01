@@ -31,6 +31,9 @@ class Person(ndb.Model):
 class Restaurant(ndb.Model):
     name = ndb.StringProperty()
 
+class Entertainment(ndb.Model):
+    name = ndb.StringProperty()
+
 class Place(ndb.Model):
     place_name = ndb.StringProperty()
     place_type = ndb.StringProperty()
@@ -64,23 +67,46 @@ class MainPage(webapp2.RequestHandler):
 
 class ProfilePage(webapp2.RequestHandler):
     def get(self):
-        template = jinja_environment.get_template("templates/profile-page.html")
         user = users.get_current_user()
         people = Person.query().fetch()
         for person in people:
             if user.nickname() == person.email:
                 current_person = person
+        vars_dict = {'name': current_person.name}
+        template = jinja_environment.get_template("templates/profile-page.html")
+        self.response.write(template.render(vars_dict))
+
+    def post(self):
         new_restaurant = Restaurant(name = self.request.get('food'))
-        new_restaurant.put()
+        if new_restaurant.name != "":
+            new_restaurant.put()
         restaurants = Restaurant.query().fetch()
         restaurant_list = []
         for place in restaurants:
             restaurant_list.append(place.name)
-        vars_dict = {'name': current_person.name, 'list': restaurant_list}
+        if new_restaurant.name not in restaurant_list and new_restaurant.name != "":
+            restaurant_list.append(new_restaurant.name)
+        new_entertainment = Entertainment(name = self.request.get('entertainment'))
+        if new_entertainment.name != "":
+            new_entertainment.put()
+        entertainments = Entertainment.query().fetch()
+        entertainment_list = []
+        for place in entertainments:
+            entertainment_list.append(place.name)
+        if new_entertainment.name not in entertainment_list and new_entertainment.name != "":
+            entertainment_list.append(new_entertainment.name)
+        vars_dict = {'restaurant_list': restaurant_list, 'entertainment_list': entertainment_list}
+        template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
+
+class RandomPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("templates/randomizer.html")
+        self.response.write(template.render())
 
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/profile', ProfilePage)
+    ('/profile', ProfilePage),
+    ('/random', RandomPage)
 ], debug=True)

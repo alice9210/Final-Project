@@ -1,0 +1,21 @@
+body {
+    background-image: url("/resources/whitepicketfencebgcopy.jpg");
+    background-color: #cccccc;
+    background-size: 100% 100%;
+}
+
+div {
+  justify-content: center;
+  align-items: center;
+  display:flex;
+}
+
+h1 {
+  text-align: center;
+  padding-top: 25%;
+  font-size: 50px;
+}
+
+button {
+  font-size: 25px;
+}
