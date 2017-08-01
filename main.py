@@ -99,8 +99,14 @@ class ProfilePage(webapp2.RequestHandler):
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
+class RandomPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template("templates/randomizer.html")
+        self.response.write(template.render())
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/profile', ProfilePage)
+    ('/profile', ProfilePage),
+    ('/random', RandomPage)
 ], debug=True)
