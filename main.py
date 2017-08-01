@@ -30,6 +30,9 @@ class Person(ndb.Model):
     profile_image = ndb.BlobProperty()
     restaurants = ndb.StringProperty(repeated = True)
     entertainments = ndb.StringProperty(repeated = True)
+    outdoors = ndb.StringProperty(repeated = True)
+    indoors = ndb.StringProperty(repeated = True)
+    home = ndb.StringProperty(repeated = True)
 
 # class Restaurant(ndb.Model):
 #     name = ndb.StringProperty()
@@ -50,7 +53,7 @@ class MainPage(webapp2.RequestHandler):
                     in_people = True
             if in_people == False:
                 current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="<img src='https://static.tplugin.com/tplugin/img/unknown-user.png'/>",
-                    restaurants=[], entertainments=[])
+                    restaurants=[], entertainments=[], outdoors=[], indoors=[], home=[])
                 current_user.put()
             else:
                 for person in people:
@@ -73,7 +76,8 @@ class ProfilePage(webapp2.RequestHandler):
         for person in people:
             if user.nickname() == person.email:
                 current_person = person
-        vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants}
+        vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants, 'entertainment_list': current_person.entertainments,
+            'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -90,7 +94,8 @@ class ProfilePage(webapp2.RequestHandler):
         # if new_restaurant.name not in restaurant_list and new_restaurant.name != "":
         #     restaurant_list.append(new_restaurant.name)
         new_restaurant = self.request.get('food')
-        person.restaurants.append(new_restaurant)
+        if new_restaurant not in person.restaurants and new_restaurant != "":
+             person.restaurants.append(new_restaurant)
         person.put()
         # new_entertainment = Entertainment(name = self.request.get('entertainment'))
         # if new_entertainment.name != "":
@@ -99,12 +104,29 @@ class ProfilePage(webapp2.RequestHandler):
         # entertainment_list = []
         # for place in entertainments:
         #     entertainment_list.append(place.name)
-        # if new_entertainment.name not in entertainment_list and new_entertainment.name != "":
-        #     entertainment_list.append(new_entertainment.name)
+
         new_entertainment = self.request.get('entertainment')
-        person.entertainments.append(new_entertainment)
+        if new_entertainment not in person.entertainments and new_entertainment != "":
+             person.entertainments.append(new_entertainment)
         person.put()
-        vars_dict = {'name': person.name, 'restaurant_list': person.restaurants, 'entertainment_list': person.entertainments}
+
+        new_outdoors = self.request.get('outdoors')
+        if new_outdoors not in person.outdoors and new_outdoors != "":
+             person.outdoors.append(new_outdoors)
+        person.put()
+
+        new_indoors = self.request.get('indoors')
+        if new_indoors not in person.indoors and new_indoors != "":
+             person.indoors.append(new_indoors)
+        person.put()
+
+        new_home = self.request.get('home')
+        if new_home not in person.home and new_home != "":
+             person.home.append(new_home)
+        person.put()
+
+        vars_dict = {'name': person.name, 'restaurant_list': person.restaurants, 'entertainment_list': person.entertainments,
+            'outdoors_list': person.outdoors, 'indoors_list': person.indoors,'home_list': person.home}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -124,6 +146,14 @@ class Randomizer(webapp2.RequestHandler):
         #     restaurant_list.append(place.name)
         if self.request.get('category_answer') == 'Food':
             random_place = (random.choice(person.restaurants))
+        elif self.request.get('category_answer') == 'Entertainment':
+            random_place = (random.choice(person.entertainments))
+        elif self.request.get('category_answer') == 'Outdoors':
+            random_place = (random.choice(person.outdoors))
+        elif self.request.get('category_answer') == 'Indoors':
+            random_place = (random.choice(person.indoors))
+        elif self.request.get('category_answer') == 'Home':
+            random_place = (random.choice(person.home))
         vars_dict = {'random':random_place}
         self.response.write(template.render(vars_dict))
 

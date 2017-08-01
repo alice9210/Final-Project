@@ -77,15 +77,39 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
           </div>
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align">Outdoors</button>
           <div id="Demo3" class="w3-hide w3-container">
-    		 <p>Some other text..</p>
+            <form method="post">
+              <ul>
+            {% for place in outdoors_list %}
+              <li>{{place}}</li>
+            {% endfor %}
+          </ul>
+            <p>Add an Outdoor Activity<input type="text" name="outdoors"></p>
+            <button>Submit</button>
+            </form>
            </div>
 <button onclick="myFunction('Demo4')" class="w3-button w3-block w3-theme-l1 w3-left-align">Indoors</button>
           <div id="Demo4" class="w3-hide w3-container">
-            <p>Some other text..</p>
+            <form method="post">
+              <ul>
+            {% for place in indoors_list %}
+              <li>{{place}}</li>
+            {% endfor %}
+          </ul>
+            <p>Add an Indoors Activity<input type="text" name="indoors"></p>
+            <button>Submit</button>
+            </form>
           </div>
           <button onclick="myFunction('Demo5')" class="w3-button w3-block w3-theme-l1 w3-left-align">At Home</button>
           <div id="Demo5" class="w3-hide w3-container">
-            <p>Some other text..</p>
+            <form method="post">
+              <ul>
+            {% for place in home_list %}
+              <li>{{place}}</li>
+            {% endfor %}
+          </ul>
+            <p>Add an Activity to do at Home<input type="text" name="home"></p>
+            <button>Submit</button>
+            </form>
           </div>
          </div>
           </div>
