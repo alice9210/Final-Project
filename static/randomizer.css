@@ -20,7 +20,8 @@ div {
   justify-content: center;
   align-items: center;
   display:flex;
-  padding-top: 20%;
+  height: 80px;
+  padding-top: 40%;
 }
 h1 {
   text-align: center;

@@ -71,13 +71,14 @@ class MainPage(webapp2.RequestHandler):
 
 class ProfilePage(webapp2.RequestHandler):
     def get(self):
+        logout = users.create_logout_url('/')
         user = users.get_current_user()
         people = Person.query().fetch()
         for person in people:
             if user.nickname() == person.email:
                 current_person = person
         vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants, 'entertainment_list': current_person.entertainments,
-            'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home}
+            'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home, 'url': logout}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
