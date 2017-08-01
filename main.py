@@ -166,9 +166,9 @@ class EditPage(webapp2.RequestHandler):
         user = users.get_current_user()
         person = Person.query(Person.name == user.nickname()).fetch()[0]
         person.name = self.request.get('name')
-        template = jinja_environment.get_template("templates/profile-page.html")
-        vars_dict = {'name': person.name}
-        self.response.write(template.render(vars_dict))
+        # template = jinja_environment.get_template("templates/profile-page.html")
+        # vars_dict = {'name': person.name}
+        # self.response.write(template.render(vars_dict))
 
 
 app = webapp2.WSGIApplication([
