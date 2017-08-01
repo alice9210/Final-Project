@@ -84,7 +84,7 @@ class ProfilePage(webapp2.RequestHandler):
 
     def post(self):
         user = users.get_current_user()
-        person = Person.query(Person.name == user.nickname()).fetch()[0]
+        person = Person.query(Person.email == user.nickname()).fetch()[0]
         # new_restaurant = Restaurant(name = self.request.get('food'))
         # if new_restaurant.name != "":
         #     new_restaurant.put()
@@ -138,7 +138,7 @@ class Randomizer(webapp2.RequestHandler):
         self.response.write(template.render())
     def post(self):
         user = users.get_current_user()
-        person = Person.query(Person.name == user.nickname()).fetch()[0]
+        person = Person.query(Person.email == user.nickname()).fetch()[0]
         random_place = ''
         template = jinja_environment.get_template("templates/randomizer.html")
         # restaurants = Restaurant.query().fetch()
@@ -164,11 +164,13 @@ class EditPage(webapp2.RequestHandler):
         self.response.write(template.render())
     def post(self):
         user = users.get_current_user()
-        person = Person.query(Person.name == user.nickname()).fetch()[0]
-        person.name = self.request.get('name')
+        person = Person.query(Person.email == user.nickname()).fetch()[0]
+        person.name = self.request.get("name")
+        person.put()
         # template = jinja_environment.get_template("templates/profile-page.html")
         # vars_dict = {'name': person.name}
         # self.response.write(template.render(vars_dict))
+        self.redirect('/profile')
 
 
 app = webapp2.WSGIApplication([
