@@ -59,8 +59,8 @@ class MainPage(webapp2.RequestHandler):
                 for person in people:
                     if person.email == user.nickname():
                         current_user = person
-            greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
-                (current_user.name, users.create_logout_url('/')))
+            greeting = ('Welcome, %s!' %
+                (current_user.name))
         else:
             greeting = ('<a href="%s">Sign in or register</a>.' %
                 users.create_login_url('/'))
