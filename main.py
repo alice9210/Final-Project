@@ -27,6 +27,8 @@ class Person(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
     profile_image = ndb.BlobProperty()
+    restaurants = ndb.StringProperty(repeated = True)
+    entertainments = ndb.StringProperty(repeated = True)
 
 class Restaurant(ndb.Model):
     name = ndb.StringProperty()
@@ -34,9 +36,6 @@ class Restaurant(ndb.Model):
 class Entertainment(ndb.Model):
     name = ndb.StringProperty()
 
-class Place(ndb.Model):
-    place_name = ndb.StringProperty()
-    place_type = ndb.StringProperty()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -49,7 +48,8 @@ class MainPage(webapp2.RequestHandler):
                 if user.nickname() == person.email:
                     in_people = True
             if in_people == False:
-                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="<img src='https://static.tplugin.com/tplugin/img/unknown-user.png'/>")
+                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="<img src='https://static.tplugin.com/tplugin/img/unknown-user.png'/>",
+                    restaurants=[], entertainments=[])
                 current_user.put()
             else:
                 for person in people:
@@ -72,11 +72,13 @@ class ProfilePage(webapp2.RequestHandler):
         for person in people:
             if user.nickname() == person.email:
                 current_person = person
-        vars_dict = {'name': current_person.name}
+        vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
     def post(self):
+        user = users.get_current_user()
+        person = Person.query(Person.name == user.nickname()).fetch()[0]
         new_restaurant = Restaurant(name = self.request.get('food'))
         if new_restaurant.name != "":
             new_restaurant.put()
@@ -86,6 +88,8 @@ class ProfilePage(webapp2.RequestHandler):
             restaurant_list.append(place.name)
         if new_restaurant.name not in restaurant_list and new_restaurant.name != "":
             restaurant_list.append(new_restaurant.name)
+        person.restaurants = restaurant_list
+        person.put()
         new_entertainment = Entertainment(name = self.request.get('entertainment'))
         if new_entertainment.name != "":
             new_entertainment.put()
@@ -95,15 +99,17 @@ class ProfilePage(webapp2.RequestHandler):
             entertainment_list.append(place.name)
         if new_entertainment.name not in entertainment_list and new_entertainment.name != "":
             entertainment_list.append(new_entertainment.name)
-        vars_dict = {'restaurant_list': restaurant_list, 'entertainment_list': entertainment_list}
+        person.entertainments = entertainment_list
+        person.put()
+        vars_dict = {'name': person.name, 'restaurant_list': restaurant_list, 'entertainment_list': entertainment_list}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
+
 
 class RandomPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template("templates/randomizer.html")
         self.response.write(template.render())
-
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
