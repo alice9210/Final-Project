@@ -182,8 +182,12 @@ class EditPage(webapp2.RequestHandler):
         user = users.get_current_user()
         person = Person.query(Person.email == user.nickname()).fetch()[0]
         person.name = self.request.get("name")
-        person.age = self.request.get("age")
-        person.location = self.request.get("location")
+        age = self.request.get("age")
+        if age != "":
+            person.age = age
+        location = self.request.get("location")
+        if location != "":
+            person.location = location
         picture = self.request.get("picture")
         if picture != "":
             person.profile_image = picture
