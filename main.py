@@ -21,6 +21,8 @@ import urllib
 import urllib2
 import jinja2
 import os
+import logging
+import time
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -30,7 +32,7 @@ jinja_environment = jinja2.Environment(
 class Person(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
-    profile_image = ndb.BlobProperty()
+    profile_image = ndb.StringProperty()
     restaurants = ndb.StringProperty(repeated = True)
     entertainments = ndb.StringProperty(repeated = True)
     outdoors = ndb.StringProperty(repeated = True)
@@ -57,7 +59,7 @@ class MainPage(webapp2.RequestHandler):
                 if user.nickname() == person.email:
                     in_people = True
             if in_people == False:
-                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="<img src='https://static.tplugin.com/tplugin/img/unknown-user.png'/>",
+                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image='https://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg',
                     restaurants=[], entertainments=[], outdoors=[], indoors=[], home=[], location=" ", age=" ")
                 current_user.put()
             else:
@@ -82,14 +84,16 @@ class ProfilePage(webapp2.RequestHandler):
         user = users.get_current_user()
         people = Person.query().fetch()
         if key:
-            current_person = Person.get_by_id(int(key))
+            person_key = ndb.Key(urlsafe=key)
+            current_person = person_key.get()
         else:
             for person in people:
                 if user.nickname() == person.email:
                     current_person = person
         vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants, 'entertainment_list': current_person.entertainments,
             'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home, 'url': logout,
-            'location': current_person.location, 'age': current_person.age}
+            'location': current_person.location, 'age': current_person.age, 'photo_url': current_person.profile_image}
+        logging.info(current_person.profile_image)
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -139,7 +143,7 @@ class ProfilePage(webapp2.RequestHandler):
 
         vars_dict = {'name': person.name, 'restaurant_list': person.restaurants, 'entertainment_list': person.entertainments,
             'outdoors_list': person.outdoors, 'indoors_list': person.indoors,'home_list': person.home,
-            'location': current_person.location, 'age': current_person.age}
+            'location': person.location, 'age': person.age, 'photo_url': person.profile_image}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -180,35 +184,37 @@ class EditPage(webapp2.RequestHandler):
         person.name = self.request.get("name")
         person.age = self.request.get("age")
         person.location = self.request.get("location")
+        person.profile_image = self.request.get("picture")
         person.put()
-        self.redirect('/profile?key=%s' % person.key.id())
+        time.sleep(.1)
+        self.redirect('/profile?key=%s' % person.key.urlsafe())
 
-class ApiRandom(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
-        self.response.write(template.render())
-    def post(self):
-        random_place = ''
-        template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
-        user_search = {
-        'category_answer' : self.request.get('category'),
-        'location_answer' : self.request.get('location')
-        }
-
-        #apikey = '&key=YOUR_API_KEY'
-
-        base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
-        full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
-
-        search_data = urllib2.urlopen(full_url)
-        search_json = search_data.read()
-        search_dictionary = json.loads(search_json)
-        search_url = search_dictionary[#FIND WHAT GOES HERE][FIND WHAT GOES HERE]
-
-        random_place = (random.choice(search_url))
-        vars_dict = {'random':random_place}
-
-        self.response.write(template.render(vars_dict))
+# class ApiRandom(webapp2.RequestHandler):
+#     def get(self):
+#         template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
+#         self.response.write(template.render())
+#     def post(self):
+#         random_place = ''
+#         template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
+#         user_search = {
+#         'category_answer' : self.request.get('category'),
+#         'location_answer' : self.request.get('location')
+#         }
+#
+#         #apikey = '&key=YOUR_API_KEY'
+#
+#         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+#         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
+#
+#         search_data = urllib2.urlopen(full_url)
+#         search_json = search_data.read()
+#         search_dictionary = json.loads(search_json)
+#         search_url = search_dictionary[#FIND WHAT GOES HERE][FIND WHAT GOES HERE]
+#
+#         random_place = (random.choice(search_url))
+#         vars_dict = {'random':random_place}
+#
+#         self.response.write(template.render(vars_dict))
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
