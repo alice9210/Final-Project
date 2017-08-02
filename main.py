@@ -198,7 +198,7 @@ class ApiRandom(webapp2.RequestHandler):
         #apikey = '&key=YOUR_API_KEY'
 
         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
-        full_url = base_url + user_search["category_answer"] + '+in+' + user_search["category_answer"] + apikey
+        full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
 
         search_data = urllib2.urlopen(full_url)
         search_json = search_data.read()
