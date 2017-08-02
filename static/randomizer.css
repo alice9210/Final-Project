@@ -39,7 +39,12 @@ button {
   height: 63px;
   width:auto;
 
+}
 
-
-
+#answers{
+  text-align: center;
+  padding-top: 25%;
+  font-size: 25px;
+  color: black;
+  display: block;
 }
