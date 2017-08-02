@@ -208,7 +208,7 @@ class ApiRandom(webapp2.RequestHandler):
         'location_answer' : self.request.get('location')
         }
 
-        apikey = '&key=AIzaSyCaKoy1cHLDsf_fsw-C0xv5YPscovOG7nw'
+        apikey = '&key=AIzaSyDyfznQ8pRPzrVqdxfXj-em4SFRlQ8JLkI'
 
         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
@@ -283,8 +283,6 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.home = home
             person.put()
 
-
->>>>>>> 1d117b1c728644a388980cff4c8964a657f5beb6
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
