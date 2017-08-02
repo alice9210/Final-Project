@@ -207,14 +207,14 @@ class DeleteProfileListInput(webapp2.RequestHandler):
 
 
 
-        if cat == "restaurants":
-            restaurants = person.restaurants
-            logging.info(restaurants)
-            restaurants.remove(userdata)
-            person.restaurants = restaurants
-            person.put()
+    if cat == "restaurants":
+        restaurants = person.restaurants
+        logging.info(restaurants)
+        restaurants.remove(userdata)
+        person.restaurants = restaurants
+        person.put()
 
-        if cat == "entertainment":
+    if cat == "entertainment":
         entertainment = person.entertainment
         logging.info(entertainment)
         entertainment.remove(userdata)
@@ -228,11 +228,11 @@ class DeleteProfileListInput(webapp2.RequestHandler):
         person.outdoors = outdoors
         person.put()
 
-    if cat == "restaurants":
-            restaurants = person.restaurants
-            logging.info(restaurants)
-            restaurants.remove(userdata)
-            person.restaurants = restaurants
+    if cat == "athome":
+            athome = person.athome
+            logging.info(athome)
+            athome.remove(athome)
+            person.athome = athome
             person.put()
 
 # class ApiRandom(webapp2.RequestHandler):
