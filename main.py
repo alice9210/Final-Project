@@ -208,6 +208,7 @@ class ApiRandom(webapp2.RequestHandler):
         'location_answer' : self.request.get('location')
         }
 
+        # change often
         apikey = '&key=AIzaSyDyfznQ8pRPzrVqdxfXj-em4SFRlQ8JLkI'
 
         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
@@ -226,8 +227,8 @@ class ApiRandom(webapp2.RequestHandler):
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
-            # if user_search["category_answer"] == 'restaurants':
-            new_result["price_level"] = result["price_level"]
+            if user_search["category_answer"] == 'restaurants':
+                new_result["price_level"] = result["price_level"]
             new_result["rating"] = result["rating"]
             new_results.append(new_result)
 
