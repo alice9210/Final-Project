@@ -269,11 +269,19 @@ class DeleteProfileListInput(webapp2.RequestHandler):
         person.outdoors = outdoors
         person.put()
 
-    if cat == "athome":
-            athome = person.athome
-            logging.info(athome)
-            athome.remove(athome)
-            person.athome = athome
+
+    if cat == "indoors":
+        indoors = person.indoors
+        logging.info(indoors)
+        indoors.remove(userdata)
+        person.indoors = indoors
+        person.put()
+
+    if cat == "home":
+            home = person.home
+            logging.info(home)
+            home.remove(home)
+            person.home = home
             person.put()
 
 #
