@@ -69,7 +69,7 @@ class MainPage(webapp2.RequestHandler):
             greeting = ('Welcome, %s!' %
                 (current_user.name))
         else:
-            greeting = ('<a href="%s">Sign in or register</a>' %
+            greeting = ('<a href="%s">Sign in or register</a>.' %
                 users.create_login_url('/'))
             check = False
         template = jinja_environment.get_template('templates/onthefence.html')
@@ -196,7 +196,6 @@ class EditPage(webapp2.RequestHandler):
         time.sleep(.1)
         self.redirect('/profile?key=%s' % person.key.urlsafe())
 
-<<<<<<< HEAD
 class ApiRandom(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/randomizerus.html')
@@ -222,12 +221,11 @@ class ApiRandom(webapp2.RequestHandler):
         new_results = []
 
         for result in results:
-            logging.info(result)
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
-            # new_result["price_level"] = result["price_level"]
-            # new_result["rating"] = result["rating"]
+            new_result["price_level"] = result["price_level"]
+            new_result["rating"] = result["rating"]
             new_results.append(new_result)
 
         result_dictionary["new_results"] = new_results
@@ -238,8 +236,6 @@ class ApiRandom(webapp2.RequestHandler):
         vars_dict = {'random':random_place}
         self.response.write(template.render(vars_dict))
 
-=======
->>>>>>> 02519c5f4517c1f970976ae5c7f18a1de0656bb4
 
 class DeleteProfileListInput(webapp2.RequestHandler):
     def post(self):
@@ -256,27 +252,27 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.put()
 
         if cat == "entertainment":
-        entertainment = person.entertainment
-        logging.info(entertainment)
-        entertainment.remove(userdata)
-        person.entertainment = entertainment
-        person.put()
+            entertainment = person.entertainment
+            logging.info(entertainment)
+            entertainment.remove(userdata)
+            person.entertainment = entertainment
+            person.put()
 
-    if cat == "outdoors":
-        outdoors = person.outdoors
-        logging.info(outdoors)
-        outdoors.remove(userdata)
-        person.outdoors = outdoors
-        person.put()
+        if cat == "outdoors":
+            outdoors = person.outdoors
+            logging.info(outdoors)
+            outdoors.remove(userdata)
+            person.outdoors = outdoors
+            person.put()
 
-    if cat == "restaurants":
+        if cat == "restaurants":
             restaurants = person.restaurants
             logging.info(restaurants)
             restaurants.remove(userdata)
             person.restaurants = restaurants
             person.put()
 
-#
+
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
