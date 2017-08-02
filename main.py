@@ -220,12 +220,13 @@ class ApiRandom(webapp2.RequestHandler):
         results = search_dictionary["results"]
         new_results = []
 
-        logging.info(search_dictionary)
+
 
         for result in results:
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
+            # if user_search["category_answer"] == 'restaurants':
             new_result["price_level"] = result["price_level"]
             new_result["rating"] = result["rating"]
             new_results.append(new_result)
@@ -284,7 +285,6 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.put()
 
 
->>>>>>> 1d117b1c728644a388980cff4c8964a657f5beb6
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
