@@ -68,7 +68,7 @@ class MainPage(webapp2.RequestHandler):
             greeting = ('Welcome, %s!' %
                 (current_user.name))
         else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
+            greeting = ('<a href="%s">Sign in or register</a>' %
                 users.create_login_url('/'))
             check = False
         template = jinja_environment.get_template('templates/onthefence.html')
