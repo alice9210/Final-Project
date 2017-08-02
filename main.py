@@ -227,9 +227,14 @@ class ApiRandom(webapp2.RequestHandler):
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
-            if user_search["category_answer"] == 'restaurants':
-                new_result["price_level"] = result["price_level"]
-            new_result["rating"] = result["rating"]
+            # if user_search["category_answer"] == 'restaurants':
+            #     new_result["price_level"] = result["price_level"]
+            # else:
+            new_result["price_level"] = "N/A"
+            if user_search["category_answer"] != 'entertainment':
+                new_result["rating"] = result["rating"]
+            else:
+                new_result['rating'] = "N/A"
             new_results.append(new_result)
 
         result_dictionary["new_results"] = new_results
