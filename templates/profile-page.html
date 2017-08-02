@@ -18,7 +18,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
   <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
   <a href="/editprofile" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Edit Profile">Edit Profile</a>
    <a href="/random" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Randomizer">Random from Saved Places</a>
-
+   <a href="/recommendation" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Randomizer">Random from Location</a>
   <a href= {{url}} class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Log Out"> Log Out</a>
  </div>
 </div>
@@ -65,9 +65,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
           <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align">Entertainment</button>
           <div id="Demo2" class="w3-hide w3-container">
             <form method="post">
-              <ul>
+              <ul class=entertainment>
             {% for place in entertainment_list %}
-              <li>{{place}}</li>
+              <li>{{place}} <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
             <p>Add a place<input type="text" name="entertainment"></p>
@@ -77,7 +77,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align">Outdoors</button>
           <div id="Demo3" class="w3-hide w3-container">
             <form method="post">
-              <ul>
+              <ul class=outdoors>
             {% for place in outdoors_list %}
               <li>{{place}}  <i class="fa fa-trash"></i></li>
             {% endfor %}
@@ -89,9 +89,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
 <button onclick="myFunction('Demo4')" class="w3-button w3-block w3-theme-l1 w3-left-align">Indoors</button>
           <div id="Demo4" class="w3-hide w3-container">
             <form method="post">
-              <ul>
+              <ul class=indoors>
             {% for place in indoors_list %}
-              <li>{{place}}</li>
+              <li>{{place}} <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
             <p>Add an Indoors Activity<input type="text" name="indoors"></p>
@@ -101,9 +101,9 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
           <button onclick="myFunction('Demo5')" class="w3-button w3-block w3-theme-l1 w3-left-align">At Home</button>
           <div id="Demo5" class="w3-hide w3-container">
             <form method="post">
-              <ul>
+              <ul class=home>
             {% for place in home_list %}
-              <li>{{place}}</li>
+              <li>{{place}} <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
             <p>Add an Activity to do at Home<input type="text" name="home"></p>

@@ -247,12 +247,7 @@ class DeleteProfileListInput(webapp2.RequestHandler):
         cat = self.request.get("category")
         userdata = self.request.get("input").strip()
 
-        if cat == "restaurants":
-            restaurants = person.restaurants
-            logging.info(restaurants)
-            restaurants.remove(userdata)
-            person.restaurants = restaurants
-            person.put()
+
 
         if cat == "entertainment":
             entertainment = person.entertainment
@@ -261,13 +256,6 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.entertainment = entertainment
             person.put()
 
-        if cat == "outdoors":
-            outdoors = person.outdoors
-            logging.info(outdoors)
-            outdoors.remove(userdata)
-            person.outdoors = outdoors
-            person.put()
-
         if cat == "restaurants":
             restaurants = person.restaurants
             logging.info(restaurants)
@@ -275,7 +263,28 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.restaurants = restaurants
             person.put()
 
-#
+
+        if cat == "outdoors":
+            outdoors = person.outdoors
+            logging.info(outdoors)
+            outdoors.remove(userdata)
+            person.outdoors = outdoors
+            person.put()
+
+
+        if cat == "indoors":
+            indoors = person.indoors
+            logging.info(indoors)
+            indoors.remove(userdata)
+            person.indoors = indoors
+            person.put()
+
+        if cat == "home":
+                home = person.home
+                logging.info(home)
+                home.remove(home)
+                person.home = home
+                person.put()
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
