@@ -58,9 +58,13 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
             {% endfor %}
 
           </ul>
+          <div class=restaurants>
             <p>Add a restaurant<input type="text" name="food"></p>
-            <button>Submit</button>
+            <button class=norefresh>Submit</button>
+          </div>
+
             </form>
+
           </div>
           <button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align">Entertainment</button>
           <div id="Demo2" class="w3-hide w3-container">
@@ -70,10 +74,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
               <li>{{place}} <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
+          <div class=entertainment>
             <p>Add a place<input type="text" name="entertainment"></p>
-            <button>Submit</button>
+
+            <button class=norefresh>Submit</button>
+          </div>
             </form>
           </div>
+
           <button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align">Outdoors</button>
           <div id="Demo3" class="w3-hide w3-container">
             <form method="post">
@@ -82,8 +90,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
               <li>{{place}}  <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
+          <div class=outdoor>
             <p>Add an Outdoor Activity<input type="text" name="outdoors"></p>
-            <button>Submit</button>
+            <button class=norefresh>Submit</button>
+          </div>
             </form>
            </div>
 <button onclick="myFunction('Demo4')" class="w3-button w3-block w3-theme-l1 w3-left-align">Indoors</button>
@@ -94,8 +104,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
               <li>{{place}} <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
+          <div class=indoors>
             <p>Add an Indoors Activity<input type="text" name="indoors"></p>
-            <button>Submit</button>
+            <button class=norefresh>Submit</button>
+          </div>
             </form>
           </div>
           <button onclick="myFunction('Demo5')" class="w3-button w3-block w3-theme-l1 w3-left-align">At Home</button>
@@ -106,8 +118,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
               <li>{{place}} <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
+          <div class=home>
             <p>Add an Activity to do at Home<input type="text" name="home"></p>
-            <button>Submit</button>
+            <button class=norefresh>Submit</button>
+          </div>
             </form>
           </div>
          </div>
