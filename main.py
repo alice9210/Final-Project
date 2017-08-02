@@ -22,6 +22,7 @@ import urllib2
 import jinja2
 import os
 import time
+import logging
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -197,6 +198,7 @@ class EditPage(webapp2.RequestHandler):
 
 
 
+<<<<<<< HEAD
 class ApiRandom(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/randomizerus.html')
@@ -236,6 +238,59 @@ class ApiRandom(webapp2.RequestHandler):
         random_place = (random.choice(result_dictionary["new_results"]))
         vars_dict = {'random':random_place}
         self.response.write(template.render(vars_dict))
+=======
+
+class DeleteProfileListInput(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        person = Person.query(Person.email == user.nickname()).fetch()[0]
+        cat = self.request.get("category")
+        userdata = self.request.get("input").strip()
+
+
+
+
+        if cat == "restaurants":
+            restaurants = person.restaurants
+            logging.info(restaurants)
+            restaurants.remove(userdata)
+            person.restaurants = restaurants
+            person.put()
+
+
+
+# class ApiRandom(webapp2.RequestHandler):
+#     def get(self):
+#         template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
+#         self.response.write(template.render())
+#     def post(self):
+#         random_place = ''
+#         template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
+#         user_search = {
+#         'category_answer' : self.request.get('category'),
+#         'location_answer' : self.request.get('location')
+#         }
+#
+#         #apikey = '&key=AIzaSyCaKoy1cHLDsf_fsw-C0xv5YPscovOG7nw'
+#
+#         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+#         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
+#
+#         search_data = urllib2.urlopen(full_url)
+#         search_json = search_data.read()
+#         search_dictionary = json.loads(search_json)
+#         search_url = search_dictionary["results"
+#         search_options = {
+            # "formatted_address":,
+            # "name":,
+            # "price_level": ,
+            # "rating": ,
+#              }
+#         random_place = (random.choice(search_url))
+#         vars_dict = {'random':random_place}
+#
+#         self.response.write(template.render(vars_dict))
+>>>>>>> 57fcb2fd9083214ec2154c73dd80688f03ebf64a
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -243,4 +298,7 @@ app = webapp2.WSGIApplication([
     ('/random', Randomizer),
     ('/editprofile', EditPage),
     ('/recommendation', ApiRandom),
+
+    ('/deleteinput', DeleteProfileListInput),
+
 ], debug=True)
