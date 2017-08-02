@@ -220,6 +220,8 @@ class ApiRandom(webapp2.RequestHandler):
         results = search_dictionary["results"]
         new_results = []
 
+        logging.info(search_dictionary)
+
         for result in results:
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
@@ -246,6 +248,12 @@ class DeleteProfileListInput(webapp2.RequestHandler):
 
 
 
+        if cat == "entertainment":
+            entertainment = person.entertainment
+            logging.info(entertainment)
+            entertainment.remove(userdata)
+            person.entertainment = entertainment
+            person.put()
 
         if cat == "restaurants":
             restaurants = person.restaurants
@@ -254,20 +262,12 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.restaurants = restaurants
             person.put()
 
-        if cat == "entertainment":
-            entertainment = person.entertainment
-            logging.info(entertainment)
-            entertainment.remove(userdata)
-            person.entertainment = entertainment
-            person.put()
-
         if cat == "outdoors":
             outdoors = person.outdoors
             logging.info(outdoors)
             outdoors.remove(userdata)
             person.outdoors = outdoors
             person.put()
-
 
         if cat == "indoors":
             indoors = person.indoors
@@ -284,6 +284,7 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.put()
 
 
+>>>>>>> 1d117b1c728644a388980cff4c8964a657f5beb6
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
