@@ -16,6 +16,9 @@
 #
 import random
 import webapp2
+import json
+import urllib
+import urllib2
 import jinja2
 import os
 from google.appengine.ext import ndb
@@ -180,6 +183,32 @@ class EditPage(webapp2.RequestHandler):
         person.put()
         self.redirect('/profile?key=%s' % person.key.id())
 
+class ApiRandom(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
+        self.response.write(template.render())
+    def post(self):
+        random_place = ''
+        template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
+        user_search = {
+        'category_answer' : self.request.get('category'),
+        'location_answer' : self.request.get('location')
+        }
+
+        #apikey = '&key=YOUR_API_KEY'
+
+        base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+        full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
+
+        search_data = urllib2.urlopen(full_url)
+        search_json = search_data.read()
+        search_dictionary = json.loads(search_json)
+        search_url = search_dictionary[#FIND WHAT GOES HERE][FIND WHAT GOES HERE]
+
+        random_place = (random.choice(search_url))
+        vars_dict = {'random':random_place}
+
+        self.response.write(template.render(vars_dict))
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
