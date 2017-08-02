@@ -21,8 +21,6 @@ import urllib
 import urllib2
 import jinja2
 import os
-import logging
-import time
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -32,7 +30,7 @@ jinja_environment = jinja2.Environment(
 class Person(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
-    profile_image = ndb.StringProperty()
+    profile_image = ndb.BlobProperty()
     restaurants = ndb.StringProperty(repeated = True)
     entertainments = ndb.StringProperty(repeated = True)
     outdoors = ndb.StringProperty(repeated = True)
@@ -59,7 +57,7 @@ class MainPage(webapp2.RequestHandler):
                 if user.nickname() == person.email:
                     in_people = True
             if in_people == False:
-                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image='https://www.keita-gaming.com/assets/profile/default-avatar-c5d8ec086224cb6fc4e395f4ba3018c2.jpg',
+                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="<img src='https://static.tplugin.com/tplugin/img/unknown-user.png'/>",
                     restaurants=[], entertainments=[], outdoors=[], indoors=[], home=[], location=" ", age=" ")
                 current_user.put()
             else:
@@ -84,16 +82,14 @@ class ProfilePage(webapp2.RequestHandler):
         user = users.get_current_user()
         people = Person.query().fetch()
         if key:
-            person_key = ndb.Key(urlsafe=key)
-            current_person = person_key.get()
+            current_person = Person.get_by_id(int(key))
         else:
             for person in people:
                 if user.nickname() == person.email:
                     current_person = person
         vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants, 'entertainment_list': current_person.entertainments,
             'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home, 'url': logout,
-            'location': current_person.location, 'age': current_person.age, 'photo_url': current_person.profile_image}
-        logging.info(current_person.profile_image)
+            'location': current_person.location, 'age': current_person.age}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -112,6 +108,7 @@ class ProfilePage(webapp2.RequestHandler):
         new_restaurant = self.request.get('food')
         if new_restaurant not in person.restaurants and new_restaurant != "":
              person.restaurants.append(new_restaurant)
+
         person.put()
         # new_entertainment = Entertainment(name = self.request.get('entertainment'))
         # if new_entertainment.name != "":
@@ -124,6 +121,7 @@ class ProfilePage(webapp2.RequestHandler):
         new_entertainment = self.request.get('entertainment')
         if new_entertainment not in person.entertainments and new_entertainment != "":
              person.entertainments.append(new_entertainment)
+
         person.put()
 
         new_outdoors = self.request.get('outdoors')
@@ -143,7 +141,7 @@ class ProfilePage(webapp2.RequestHandler):
 
         vars_dict = {'name': person.name, 'restaurant_list': person.restaurants, 'entertainment_list': person.entertainments,
             'outdoors_list': person.outdoors, 'indoors_list': person.indoors,'home_list': person.home,
-            'location': person.location, 'age': person.age, 'photo_url': person.profile_image}
+            'location': current_person.location, 'age': current_person.age}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -184,14 +182,12 @@ class EditPage(webapp2.RequestHandler):
         person.name = self.request.get("name")
         person.age = self.request.get("age")
         person.location = self.request.get("location")
-        person.profile_image = self.request.get("picture")
         person.put()
-<<<<<<< HEAD
-        self.redirect('/profile?key=%s' % person.key.id())
-=======
         time.sleep(.1)
         self.redirect('/profile?key=%s' % person.key.urlsafe())
->>>>>>> 07cb6f59088acf3be126f2a557e09f039973877a
+
+        self.redirect('/profile?key=%s' % person.key.id())
+
 
 # class ApiRandom(webapp2.RequestHandler):
 #     def get(self):
@@ -205,11 +201,7 @@ class EditPage(webapp2.RequestHandler):
 #         'location_answer' : self.request.get('location')
 #         }
 #
-<<<<<<< HEAD
 #         #apikey = '&key=AIzaSyCaKoy1cHLDsf_fsw-C0xv5YPscovOG7nw'
-=======
-#         #apikey = '&key=YOUR_API_KEY'
->>>>>>> 07cb6f59088acf3be126f2a557e09f039973877a
 #
 #         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
 #         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
@@ -217,7 +209,6 @@ class EditPage(webapp2.RequestHandler):
 #         search_data = urllib2.urlopen(full_url)
 #         search_json = search_data.read()
 #         search_dictionary = json.loads(search_json)
-<<<<<<< HEAD
 #         search_url = search_dictionary["results"]
 #         search_options = {
             # "formatted_address":,
@@ -225,10 +216,6 @@ class EditPage(webapp2.RequestHandler):
             # "price_level": ,
             # "rating": ,
 #              }
-=======
-#         search_url = search_dictionary[#FIND WHAT GOES HERE][FIND WHAT GOES HERE]
-#
->>>>>>> 07cb6f59088acf3be126f2a557e09f039973877a
 #         random_place = (random.choice(search_url))
 #         vars_dict = {'random':random_place}
 #
