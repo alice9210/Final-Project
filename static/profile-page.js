@@ -16,18 +16,12 @@ function deleteinput(){
 
     var url = '/deleteinput'
     var data = {"category":category,"input":usertext }
-    var settings = {"type":"POST", "success":ByeInput, "data":data}
+    var settings = {"type":"POST", "data":data}
 
 
 
     $.ajax(url, settings)
 
-}
-
-function ByeInput(){
-    console.log("trash")
-
-
-
+    $(this).parent().remove()
 
 }

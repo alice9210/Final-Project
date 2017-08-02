@@ -22,6 +22,7 @@ import urllib2
 import jinja2
 import os
 import time
+import logging
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -203,15 +204,19 @@ class DeleteProfileListInput(webapp2.RequestHandler):
         user = users.get_current_user()
         person = Person.query(Person.email == user.nickname()).fetch()[0]
         cat = self.request.get("category")
-        userdata = self.request.get("input")
+        userdata = self.request.get("input").strip()
+
 
 
 
         if cat == "restaurants":
             restaurants = person.restaurants
+            logging.info(restaurants)
             restaurants.remove(userdata)
             person.restaurants = restaurants
             person.put()
+
+
 
 # class ApiRandom(webapp2.RequestHandler):
 #     def get(self):
