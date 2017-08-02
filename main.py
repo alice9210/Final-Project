@@ -21,6 +21,7 @@ import urllib
 import urllib2
 import jinja2
 import os
+import time
 from google.appengine.ext import ndb
 from google.appengine.api import users
 
@@ -30,7 +31,7 @@ jinja_environment = jinja2.Environment(
 class Person(ndb.Model):
     name = ndb.StringProperty()
     email = ndb.StringProperty()
-    profile_image = ndb.BlobProperty()
+    profile_image = ndb.StringProperty()
     restaurants = ndb.StringProperty(repeated = True)
     entertainments = ndb.StringProperty(repeated = True)
     outdoors = ndb.StringProperty(repeated = True)
@@ -57,7 +58,7 @@ class MainPage(webapp2.RequestHandler):
                 if user.nickname() == person.email:
                     in_people = True
             if in_people == False:
-                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="<img src='https://static.tplugin.com/tplugin/img/unknown-user.png'/>",
+                current_user = Person(name=user.nickname(), email=user.nickname(), profile_image="https://static.tplugin.com/tplugin/img/unknown-user.png",
                     restaurants=[], entertainments=[], outdoors=[], indoors=[], home=[], location=" ", age=" ")
                 current_user.put()
             else:
@@ -82,14 +83,15 @@ class ProfilePage(webapp2.RequestHandler):
         user = users.get_current_user()
         people = Person.query().fetch()
         if key:
-            current_person = Person.get_by_id(int(key))
+            person_key = ndb.Key(urlsafe=key)
+            current_person = person_key.get()
         else:
             for person in people:
                 if user.nickname() == person.email:
                     current_person = person
         vars_dict = {'name': current_person.name, 'restaurant_list': current_person.restaurants, 'entertainment_list': current_person.entertainments,
             'outdoors_list': current_person.outdoors, 'indoors_list': current_person.indoors,'home_list': current_person.home, 'url': logout,
-            'location': current_person.location, 'age': current_person.age}
+            'location': current_person.location, 'age': current_person.age, 'photo_url': current_person.profile_image}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -141,7 +143,7 @@ class ProfilePage(webapp2.RequestHandler):
 
         vars_dict = {'name': person.name, 'restaurant_list': person.restaurants, 'entertainment_list': person.entertainments,
             'outdoors_list': person.outdoors, 'indoors_list': person.indoors,'home_list': person.home,
-            'location': current_person.location, 'age': current_person.age}
+            'location': person.location, 'age': person.age, 'photo_url': person.profile_image}
         template = jinja_environment.get_template("templates/profile-page.html")
         self.response.write(template.render(vars_dict))
 
@@ -189,7 +191,6 @@ class EditPage(webapp2.RequestHandler):
         time.sleep(.1)
         self.redirect('/profile?key=%s' % person.key.urlsafe())
 
-        self.redirect('/profile?key=%s' % person.key.id())
 
 
 # class ApiRandom(webapp2.RequestHandler):
