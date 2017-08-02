@@ -69,7 +69,7 @@ class MainPage(webapp2.RequestHandler):
             greeting = ('Welcome, %s!' %
                 (current_user.name))
         else:
-            greeting = ('<a href="%s">Sign in or register</a>' %
+            greeting = ('<a href="%s">Sign in or register</a>.' %
                 users.create_login_url('/'))
             check = False
         template = jinja_environment.get_template('templates/onthefence.html')
@@ -223,12 +223,11 @@ class ApiRandom(webapp2.RequestHandler):
         logging.info(search_dictionary)
 
         for result in results:
-            logging.info(result)
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
-            # new_result["price_level"] = result["price_level"]
-            # new_result["rating"] = result["rating"]
+            new_result["price_level"] = result["price_level"]
+            new_result["rating"] = result["rating"]
             new_results.append(new_result)
 
         result_dictionary["new_results"] = new_results
@@ -263,14 +262,12 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.restaurants = restaurants
             person.put()
 
-
         if cat == "outdoors":
             outdoors = person.outdoors
             logging.info(outdoors)
             outdoors.remove(userdata)
             person.outdoors = outdoors
             person.put()
-
 
         if cat == "indoors":
             indoors = person.indoors
@@ -280,11 +277,14 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.put()
 
         if cat == "home":
-                home = person.home
-                logging.info(home)
-                home.remove(home)
-                person.home = home
-                person.put()
+            home = person.home
+            logging.info(home)
+            home.remove(home)
+            person.home = home
+            person.put()
+
+
+>>>>>>> 1d117b1c728644a388980cff4c8964a657f5beb6
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
