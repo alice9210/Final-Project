@@ -182,6 +182,9 @@ class EditPage(webapp2.RequestHandler):
         person.name = self.request.get("name")
         person.age = self.request.get("age")
         person.location = self.request.get("location")
+        picture = self.request.get("picture")
+        if picture != "":
+            person.profile_image = picture
         person.put()
         time.sleep(.1)
         self.redirect('/profile?key=%s' % person.key.urlsafe())
