@@ -69,7 +69,7 @@ class MainPage(webapp2.RequestHandler):
             greeting = ('Welcome, %s!' %
                 (current_user.name))
         else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
+            greeting = ('<a href="%s">Sign in or register</a>' %
                 users.create_login_url('/'))
             check = False
         template = jinja_environment.get_template('templates/onthefence.html')
@@ -196,6 +196,47 @@ class EditPage(webapp2.RequestHandler):
         time.sleep(.1)
         self.redirect('/profile?key=%s' % person.key.urlsafe())
 
+class ApiRandom(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/randomizerus.html')
+        self.response.write(template.render())
+    def post(self):
+        random_place = ''
+        template = jinja_environment.get_template('templates/randomizerans.html')
+        user_search = {
+        'category_answer' : self.request.get('category'),
+        'location_answer' : self.request.get('location')
+        }
+
+        apikey = '&key=AIzaSyCaKoy1cHLDsf_fsw-C0xv5YPscovOG7nw'
+
+        base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
+        full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
+
+        search_data = urllib2.urlopen(full_url)
+        search_json = search_data.read()
+        search_dictionary = json.loads(search_json)
+        result_dictionary = {}
+        results = search_dictionary["results"]
+        new_results = []
+
+        for result in results:
+            logging.info(result)
+            new_result = {}
+            new_result["formatted_address"] = result["formatted_address"]
+            new_result["name"] = result["name"]
+            # new_result["price_level"] = result["price_level"]
+            # new_result["rating"] = result["rating"]
+            new_results.append(new_result)
+
+        result_dictionary["new_results"] = new_results
+
+        # logging.info(result_dictionary)
+
+        random_place = (random.choice(result_dictionary["new_results"]))
+        vars_dict = {'random':random_place}
+        self.response.write(template.render(vars_dict))
+
 
 class DeleteProfileListInput(webapp2.RequestHandler):
     def post(self):
@@ -235,42 +276,13 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.athome = athome
             person.put()
 
-# class ApiRandom(webapp2.RequestHandler):
-#     def get(self):
-#         template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
-#         self.response.write(template.render())
-#     def post(self):
-#         random_place = ''
-#         template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
-#         user_search = {
-#         'category_answer' : self.request.get('category'),
-#         'location_answer' : self.request.get('location')
-#         }
 #
-#         #apikey = '&key=AIzaSyCaKoy1cHLDsf_fsw-C0xv5YPscovOG7nw'
-#
-#         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
-#         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
-#
-#         search_data = urllib2.urlopen(full_url)
-#         search_json = search_data.read()
-#         search_dictionary = json.loads(search_json)
-#         search_url = search_dictionary["results"
-#         search_options = {
-            # "formatted_address":,
-            # "name":,
-            # "price_level": ,
-            # "rating": ,
-#              }
-#         random_place = (random.choice(search_url))
-#         vars_dict = {'random':random_place}
-#
-#         self.response.write(template.render(vars_dict))
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/profile', ProfilePage),
     ('/random', Randomizer),
     ('/editprofile', EditPage),
+    ('/recommendation', ApiRandom),
     ('/deleteinput', DeleteProfileListInput),
 ], debug=True)
