@@ -108,6 +108,7 @@ class ProfilePage(webapp2.RequestHandler):
         new_restaurant = self.request.get('food')
         if new_restaurant not in person.restaurants and new_restaurant != "":
              person.restaurants.append(new_restaurant)
+
         person.put()
         # new_entertainment = Entertainment(name = self.request.get('entertainment'))
         # if new_entertainment.name != "":
@@ -120,6 +121,7 @@ class ProfilePage(webapp2.RequestHandler):
         new_entertainment = self.request.get('entertainment')
         if new_entertainment not in person.entertainments and new_entertainment != "":
              person.entertainments.append(new_entertainment)
+             
         person.put()
 
         new_outdoors = self.request.get('outdoors')
