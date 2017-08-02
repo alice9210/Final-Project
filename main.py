@@ -121,7 +121,7 @@ class ProfilePage(webapp2.RequestHandler):
         new_entertainment = self.request.get('entertainment')
         if new_entertainment not in person.entertainments and new_entertainment != "":
              person.entertainments.append(new_entertainment)
-             
+
         person.put()
 
         new_outdoors = self.request.get('outdoors')
@@ -185,6 +185,22 @@ class EditPage(webapp2.RequestHandler):
         person.put()
         self.redirect('/profile?key=%s' % person.key.id())
 
+
+class DeleteProfileListInput(webapp2.RequestHandler):
+    def post(self):
+        user = users.get_current_user()
+        person = Person.query(Person.email == user.nickname()).fetch()[0]
+        cat = self.request.get("category")
+        userdata = self.request.get("input")
+
+
+
+        if cat == "restaurants":
+            restaurants = person.restaurants
+            restaurants.remove(userdata)
+            person.restaurants = restaurants
+            person.put()
+
 # class ApiRandom(webapp2.RequestHandler):
 #     def get(self):
 #         template = jinja_environment.get_template(#'templates/ENTERLINKHERE.html')
@@ -216,5 +232,6 @@ app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/profile', ProfilePage),
     ('/random', Randomizer),
-    ('/editprofile', EditPage)
+    ('/editprofile', EditPage),
+    ('/deleteinput', DeleteProfileListInput),
 ], debug=True)

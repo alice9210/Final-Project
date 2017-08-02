@@ -54,10 +54,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
           <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align">Food</button>
           <div id="Demo1" class="w3-hide w3-container">
             <form method="post">
-              <ul>
+              <ul class=restaurants>
             {% for place in restaurant_list %}
-              <li>{{place}}</li>
+              <li>{{place}}   <i class="fa fa-trash"></i></li>
             {% endfor %}
+
           </ul>
             <p>Add a restaurant<input type="text" name="food"></p>
             <button>Submit</button>
@@ -80,7 +81,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
             <form method="post">
               <ul>
             {% for place in outdoors_list %}
-              <li>{{place}}</li>
+              <li>{{place}}  <i class="fa fa-trash"></i></li>
             {% endfor %}
           </ul>
             <p>Add an Outdoor Activity<input type="text" name="outdoors"></p>
@@ -150,4 +151,8 @@ function openNav() {
 </script>
 
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src=/resources/profile-page.js> </script>
+
 </html>
