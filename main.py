@@ -197,49 +197,6 @@ class EditPage(webapp2.RequestHandler):
         self.redirect('/profile?key=%s' % person.key.urlsafe())
 
 
-
-<<<<<<< HEAD
-class ApiRandom(webapp2.RequestHandler):
-    def get(self):
-        template = jinja_environment.get_template('templates/randomizerus.html')
-        self.response.write(template.render())
-    def post(self):
-        random_place = ''
-        template = jinja_environment.get_template('templates/randomizerus.html')
-        user_search = {
-        'category_answer' : self.request.get('category'),
-        'location_answer' : self.request.get('location')
-        }
-
-        apikey = '&key=AIzaSyCaKoy1cHLDsf_fsw-C0xv5YPscovOG7nw'
-
-        base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
-        full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
-
-        search_data = urllib2.urlopen(full_url)
-        search_json = search_data.read()
-        search_dictionary = json.loads(search_json)
-        result_dictionary = {}
-        results = search_dictionary["results"]
-        new_results = []
-
-        for result in results:
-            new_result = {}
-            new_result["formatted_address"] = result["formatted_address"]
-            new_result["name"] = result["name"]
-            new_result["price_level"] = result["price_level"]
-            new_result["rating"] = result["rating"]
-            new_results.append(new_result)
-
-        result_dictionary["new_results"] = new_results
-
-        # logging.info(result_dictionary)
-
-        random_place = (random.choice(result_dictionary["new_results"]))
-        vars_dict = {'random':random_place}
-        self.response.write(template.render(vars_dict))
-=======
-
 class DeleteProfileListInput(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
@@ -257,7 +214,26 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.restaurants = restaurants
             person.put()
 
+        if cat == "entertainment":
+        entertainment = person.entertainment
+        logging.info(entertainment)
+        entertainment.remove(userdata)
+        person.entertainment = entertainment
+        person.put()
 
+    if cat == "outdoors":
+        outdoors = person.outdoors
+        logging.info(outdoors)
+        outdoors.remove(userdata)
+        person.outdoors = outdoors
+        person.put()
+
+    if cat == "restaurants":
+            restaurants = person.restaurants
+            logging.info(restaurants)
+            restaurants.remove(userdata)
+            person.restaurants = restaurants
+            person.put()
 
 # class ApiRandom(webapp2.RequestHandler):
 #     def get(self):
@@ -290,15 +266,11 @@ class DeleteProfileListInput(webapp2.RequestHandler):
 #         vars_dict = {'random':random_place}
 #
 #         self.response.write(template.render(vars_dict))
->>>>>>> 57fcb2fd9083214ec2154c73dd80688f03ebf64a
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/profile', ProfilePage),
     ('/random', Randomizer),
     ('/editprofile', EditPage),
-    ('/recommendation', ApiRandom),
-
     ('/deleteinput', DeleteProfileListInput),
-
 ], debug=True)
