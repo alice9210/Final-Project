@@ -209,7 +209,7 @@ class EditPage(webapp2.RequestHandler):
 #         search_data = urllib2.urlopen(full_url)
 #         search_json = search_data.read()
 #         search_dictionary = json.loads(search_json)
-#         search_url = search_dictionary["results"]
+#         search_url = search_dictionary["results"
 #         search_options = {
             # "formatted_address":,
             # "name":,
