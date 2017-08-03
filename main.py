@@ -300,7 +300,10 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.put()
 
 #
-
+class FeedbackPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/feedback.html')
+        self.response.write(template.render())
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
@@ -309,4 +312,5 @@ app = webapp2.WSGIApplication([
     ('/editprofile', EditPage),
     ('/recommendation', ApiRandom),
     ('/deleteinput', DeleteProfileListInput),
+    ('/feedback', FeedbackPage)
 ], debug=True)
