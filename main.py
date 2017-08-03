@@ -326,8 +326,10 @@ class FeedbackPage(webapp2.RequestHandler):
 class ViewFeedbackPage(webapp2.RequestHandler):
     def get(self):
         template = jinja_environment.get_template('templates/viewfeedback.html')
+        user = users.get_current_user()
+        person = Person.query(Person.email == user.nickname()).fetch()[0]
         feedback = Feedback.query().fetch()
-        vars_dict = {'feedback': feedback}
+        vars_dict = {'feedback': feedback, 'person_picture':person.profile_image}
         self.response.write(template.render(vars_dict))
 
 app = webapp2.WSGIApplication([
