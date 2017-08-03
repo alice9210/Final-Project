@@ -48,6 +48,10 @@ button {
   display: block;
 }
 
+#box{
+  margin-top: 365px;
+  color: black;
+}
 iframe{
   height: 400px;
   width: 800px;
