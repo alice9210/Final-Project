@@ -222,7 +222,8 @@ class ApiRandom(webapp2.RequestHandler):
         }
 
         # change often
-        apikey = '&key=AIzaSyAa6IdoDySL4CJUjX_4kA81E2J9CS6jJDY'
+        apikey = '&key=AIzaSyDAEyX_eVXooWfqiKv6JrsouKOOmoaFOXM'
+        # AIzaSyAa6IdoDySL4CJUjX_4kA81E2J9CS6jJDY'
 
         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
@@ -295,11 +296,11 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.put()
 
         if cat == "home":
-                home = person.home
-                logging.info(home)
-                home.remove(home)
-                person.home = home
-                person.put()
+            home = person.home
+            logging.info(home)
+            home.remove(home)
+            person.home = home
+            person.put()
 
 #
 
