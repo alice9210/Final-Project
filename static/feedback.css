@@ -165,3 +165,7 @@ input:focus, textarea:focus {
 		padding-right: 3%;
 	}
 }
+#view {
+  display: block;
+  float: right;
+}
