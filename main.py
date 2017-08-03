@@ -41,12 +41,10 @@ class Person(ndb.Model):
     location = ndb.StringProperty()
     age = ndb.StringProperty()
 
-# class Restaurant(ndb.Model):
-#     name = ndb.StringProperty()
-
-# class Entertainment(ndb.Model):
-#     name = ndb.StringProperty()
-
+class Feedback(ndb.Model):
+    name = ndb.StringProperty()
+    email = ndb.StringProperty()
+    feedback = ndb.StringProperty()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
@@ -306,6 +304,11 @@ class DeleteProfileListInput(webapp2.RequestHandler):
 #
 class FeedbackPage(webapp2.RequestHandler):
     def get(self):
+        template = jinja_environment.get_template('templates/feedback.html')
+        self.response.write(template.render())
+    def post(self):
+        new_feedback = Feedback(name=self.request.get('name'), email = self.request.get('email'), feedback = self.request.get('text'))
+        new_feedback.put()
         template = jinja_environment.get_template('templates/feedback.html')
         self.response.write(template.render())
 
