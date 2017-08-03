@@ -260,10 +260,6 @@ class DeleteProfileListInput(webapp2.RequestHandler):
         cat = self.request.get("category")
         userdata = self.request.get("input").strip()
 
-
-
-
-
         if cat == "restaurants":
             restaurants = person.restaurants
             logging.info(restaurants)
