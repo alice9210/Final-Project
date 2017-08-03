@@ -218,7 +218,7 @@ class ApiRandom(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/randomizerans.html')
         user_search = {
         'category_answer' : self.request.get('category'),
-        'location_answer' : self.request.get('location')
+        'location_answer' : self.request.get('location').replace(" ", "+")
         }
 
         # change often
@@ -240,14 +240,6 @@ class ApiRandom(webapp2.RequestHandler):
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
-            if user_search["category_answer"] == 'restaurants':
-                new_result["price_level"] = result["price_level"]
-            else:
-                new_result["price_level"] = "N/A"
-            if user_search["category_answer"] != '':
-                new_result["rating"] = result["rating"]
-            else:
-                new_result['rating'] = "N/A"
             new_results.append(new_result)
 
         result_dictionary["new_results"] = new_results
@@ -256,7 +248,7 @@ class ApiRandom(webapp2.RequestHandler):
 
         random_place = (random.choice(result_dictionary["new_results"]))
         place_name = random_place['name']
-        place_name.replace(' ', "%20")
+        place_name.replace(' ', "%20").replace("&", "%26")
         vars_dict = {'random':random_place, 'place_name': place_name}
         self.response.write(template.render(vars_dict))
 

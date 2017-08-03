@@ -50,10 +50,8 @@ button {
 
 iframe{
   height: 400px;
-  width: 500px;
+  width: 800px;
   display: block;
-  align-items: center;
-  justify-content: center;
   margin-left: auto;
   margin-right: auto;
 }
