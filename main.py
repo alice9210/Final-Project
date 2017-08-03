@@ -78,7 +78,6 @@ class MainPage(webapp2.RequestHandler):
 
 class ProfilePage(webapp2.RequestHandler):
     def get(self):
-        #Refresh issue still happening
         logout = users.create_logout_url('/')
         key = self.request.get('key')
         user = users.get_current_user()
@@ -241,11 +240,11 @@ class ApiRandom(webapp2.RequestHandler):
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
-            # if user_search["category_answer"] == 'restaurants':
-            #     new_result["price_level"] = result["price_level"]
-            # else:
-            new_result["price_level"] = "N/A"
-            if user_search["category_answer"] != 'entertainment':
+            if user_search["category_answer"] == 'restaurants':
+                new_result["price_level"] = result["price_level"]
+            else:
+                new_result["price_level"] = "N/A"
+            if user_search["category_answer"] != '':
                 new_result["rating"] = result["rating"]
             else:
                 new_result['rating'] = "N/A"
@@ -256,7 +255,9 @@ class ApiRandom(webapp2.RequestHandler):
         # logging.info(result_dictionary)
 
         random_place = (random.choice(result_dictionary["new_results"]))
-        vars_dict = {'random':random_place}
+        place_name = random_place['name']
+        place_name.replace(' ', "%20")
+        vars_dict = {'random':random_place, 'place_name': place_name}
         self.response.write(template.render(vars_dict))
 
 
