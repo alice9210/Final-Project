@@ -222,7 +222,7 @@ class ApiRandom(webapp2.RequestHandler):
         }
 
         # change often
-        apikey = '&key=AIzaSyDyfznQ8pRPzrVqdxfXj-em4SFRlQ8JLkI'
+        apikey = '&key=AIzaSyBCfwaGRndVArp85pAcpWncbUFHp-UdtOo'
 
         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
