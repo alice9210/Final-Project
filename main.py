@@ -307,8 +307,19 @@ class FeedbackPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/feedback.html')
         self.response.write(template.render())
     def post(self):
-        new_feedback = Feedback(name=self.request.get('name'), email = self.request.get('email'), feedback = self.request.get('text'))
-        new_feedback.put()
+        new_feedback = Feedback(name="", email = "", feedback = "")
+        feedback_name = self.request.get('name')
+        if feedback_name != "":
+            new_feedback.name = feedback_name
+            new_feedback.put()
+        feedback_email = self.request.get('email')
+        if feedback_email != "":
+            new_feedback.email = feedback_email
+            new_feedback.put()
+        feedback_text = self.request.get('text')
+        if feedback_text != "":
+            new_feedback.feedback = feedback_text
+            new_feedback.put()
         template = jinja_environment.get_template('templates/feedback.html')
         self.response.write(template.render())
 
