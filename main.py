@@ -313,6 +313,13 @@ class FeedbackPage(webapp2.RequestHandler):
         template = jinja_environment.get_template('templates/feedback.html')
         self.response.write(template.render())
 
+class ViewFeedbackPage(webapp2.RequestHandler):
+    def get(self):
+        template = jinja_environment.get_template('templates/viewfeedback.html')
+        feedback = Feedback.query().fetch()
+        vars_dict = {'feedback': feedback}
+        self.response.write(template.render(vars_dict))
+
 app = webapp2.WSGIApplication([
     ('/', MainPage),
     ('/profile', ProfilePage),
@@ -320,5 +327,6 @@ app = webapp2.WSGIApplication([
     ('/editprofile', EditPage),
     ('/recommendation', ApiRandom),
     ('/deleteinput', DeleteProfileListInput),
-    ('/feedback', FeedbackPage)
+    ('/feedback', FeedbackPage),
+    ('/viewfeedback', ViewFeedbackPage)
 ], debug=True)
