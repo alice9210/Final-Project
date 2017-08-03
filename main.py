@@ -134,10 +134,9 @@ class ProfilePage(webapp2.RequestHandler):
 
         if category == "outdoors":
 
-
             new_outdoors = self.request.get('input')
             if new_outdoors not in person.outdoors and new_outdoors != "":
-                 person.outdoors.append(new_outdoors)
+                person.outdoors.append(new_outdoors)
             person.put()
 
         if category == "indoors":
@@ -195,7 +194,9 @@ class EditPage(webapp2.RequestHandler):
     def post(self):
         user = users.get_current_user()
         person = Person.query(Person.email == user.nickname()).fetch()[0]
-        person.name = self.request.get("name")
+        name = self.request.get("name")
+        if name != "":
+            person.name = name
         age = self.request.get("age")
         if age != "":
             person.age = age
@@ -222,7 +223,8 @@ class ApiRandom(webapp2.RequestHandler):
         }
 
         # change often
-        apikey = '&key=AIzaSyDyfznQ8pRPzrVqdxfXj-em4SFRlQ8JLkI'
+        apikey = '&key=AIzaSyDAEyX_eVXooWfqiKv6JrsouKOOmoaFOXM'
+        # AIzaSyAa6IdoDySL4CJUjX_4kA81E2J9CS6jJDY'
 
         base_url = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="
         full_url = base_url + user_search["category_answer"] + '+in+' + user_search["location_answer"] + apikey
@@ -247,7 +249,7 @@ class ApiRandom(webapp2.RequestHandler):
         # logging.info(result_dictionary)
 
         random_place = (random.choice(result_dictionary["new_results"]))
-        place_name = random_place['name']
+        place_name = random_place['name'] + " " + random_place['formatted_address']
         place_name.replace(' ', "%20").replace("&", "%26")
         vars_dict = {'random':random_place, 'place_name': place_name}
         self.response.write(template.render(vars_dict))
@@ -291,11 +293,11 @@ class DeleteProfileListInput(webapp2.RequestHandler):
             person.put()
 
         if cat == "home":
-                home = person.home
-                logging.info(home)
-                home.remove(home)
-                person.home = home
-                person.put()
+            home = person.home
+            logging.info(home)
+            home.remove(home)
+            person.home = home
+            person.put()
 
 #
 
