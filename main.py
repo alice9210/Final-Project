@@ -242,6 +242,7 @@ class ApiRandom(webapp2.RequestHandler):
             new_result = {}
             new_result["formatted_address"] = result["formatted_address"]
             new_result["name"] = result["name"]
+            new_result["opening_hours"] = result["opening_hours"]
             new_results.append(new_result)
 
         result_dictionary["new_results"] = new_results
@@ -261,6 +262,10 @@ class DeleteProfileListInput(webapp2.RequestHandler):
         person = Person.query(Person.email == user.nickname()).fetch()[0]
         cat = self.request.get("category")
         userdata = self.request.get("input").strip()
+
+
+
+
 
         if cat == "restaurants":
             restaurants = person.restaurants
