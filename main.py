@@ -247,8 +247,8 @@ class ApiRandom(webapp2.RequestHandler):
         # logging.info(result_dictionary)
 
         random_place = (random.choice(result_dictionary["new_results"]))
-        place_name = random_place['name'] + " " + random_place['formatted_address']
-        place_name.replace(' ', "%20").replace("&", "%26")
+        place_name = random_place['name'].replace("&", "%26") + " " + random_place['formatted_address'].replace(",","")
+        place_name.replace(' ', "%20")
         vars_dict = {'random':random_place, 'place_name': place_name}
         self.response.write(template.render(vars_dict))
 
